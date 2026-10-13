@@ -103,9 +103,10 @@ cd backend
 # Install Python dependencies
 python -m pip install -r requirements.txt
 
-# (Optional) Set Gemini API key for external LLM generation;
-# if omitted, the application seamlessly runs on its built-in offline semantic engine
-# set GEMINI_API_KEY="your_api_key_here"
+# (Optional) Set a free-tier Groq API key for external LLM generation;
+# falls back to Gemini key if provided, then to built-in offline synthesis if omitted
+# set GROQ_API_KEY="your_groq_api_key_here"
+# set GEMINI_API_KEY="your_gemini_api_key_here"
 
 # Run backend unit tests to verify system integrity
 python -m pytest app/tests/test_suite.py -v

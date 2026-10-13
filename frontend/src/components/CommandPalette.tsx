@@ -114,13 +114,19 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
             autoFocus
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && query.trim()) {
+                onAskTutor(query.trim());
+                onClose();
+              }
+            }}
             placeholder="Search concepts, navigate views, or ask tutor..."
             style={{
               flex: 1,
               background: 'transparent',
               border: 'none',
               outline: 'none',
-              color: '#ffffff',
+              color: 'var(--text-primary)',
               fontSize: '0.95rem',
             }}
           />
@@ -164,7 +170,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                       borderRadius: '0.375rem',
                       backgroundColor: 'transparent',
                       border: 'none',
-                      color: 'var(--text-main)',
+                      color: 'var(--text-primary)',
                       cursor: 'pointer',
                       textAlign: 'left',
                       fontSize: '0.825rem',
@@ -178,6 +184,39 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                   </button>
                 );
               })}
+            </div>
+          )}
+
+          {query.trim().length > 0 && (
+            <div style={{ marginBottom: '0.5rem' }}>
+              <div style={{ padding: '0.35rem 0.75rem', fontSize: '0.7rem', fontWeight: 700, color: 'var(--text-dim)', textTransform: 'uppercase' }}>
+                Ask Tutor
+              </div>
+              <button
+                onClick={() => {
+                  onAskTutor(query.trim());
+                  onClose();
+                }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  width: '100%',
+                  padding: '0.6rem 0.75rem',
+                  borderRadius: '0.375rem',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  color: 'var(--text-primary)',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  fontSize: '0.8rem',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--bg-card-hover)')}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+              >
+                <MessageSquare size={15} style={{ color: 'var(--accent-cyan)' }} />
+                <span style={{ flex: 1 }}>Ask tutor: "{query.trim()}"</span>
+              </button>
             </div>
           )}
 

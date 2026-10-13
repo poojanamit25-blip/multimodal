@@ -3,14 +3,51 @@ import re
 import uuid
 import json
 import logging
+import httpx
 from typing import Dict, List, Any, Optional, Tuple
 from datetime import datetime, timezone
 
-from app.config import GEMINI_API_KEY
+from app.config import GEMINI_API_KEY, GROQ_API_KEY, GROQ_MODEL
 from app.database import get_db_connection
 from app.services.rag_engine import retrieve_relevant_units
 
 logger = logging.getLogger(__name__)
+
+def _call_groq_free_tier(prompt: str) -> Optional[str]:
+    """Calls Groq chat completion API (free-tier friendly) and returns response text."""
+    if not GROQ_API_KEY:
+        return None
+    try:
+        with httpx.Client(timeout=20.0) as client:
+            res = client.post(
+                "https://api.groq.com/openai/v1/chat/completions",
+                headers={
+                    "Authorization": "Bearer " + GROQ_API_KEY,
+                    "Content-Type": "application/json",
+                },
+                json={
+                    "model": GROQ_MODEL,
+                    "temperature": 0.25,
+                    "messages": [
+                        {
+                            "role": "system",
+                            "content": (
+                                "You are a student-friendly tutor. Use only provided evidence. "
+                                "Never invent citations or facts."
+                            )
+                        },
+                        {"role": "user", "content": prompt},
+                    ],
+                },
+            )
+            res.raise_for_status()
+            payload = res.json()
+            choices = payload.get("choices", [])
+            if choices:
+                return (choices[0].get("message") or {}).get("content")
+    except Exception as e:
+        logger.warning(f"Groq API call failed, falling back to other providers/local synthesis: {e}")
+    return None
 
 # Out of scope topics that are NOT present in the course material (to test strict refusal / boundary detection)
 UNANSWERABLE_PATTERNS = [
@@ -149,15 +186,7 @@ def generate_grounded_tutor_response(
         
     direct_evidence = "\n".join(evidence_pieces)
     
-    # Check if Gemini API is available
-    used_gemini = False
-    if GEMINI_API_KEY:
-        try:
-            import google.generativeai as genai
-            genai.configure(api_key=GEMINI_API_KEY)
-            model = genai.GenerativeModel("gemini-1.5-flash")
-            
-            prompt = f"""
+    prompt = f"""
             You are a helpful, student-friendly AI study companion for the course: {course_title}.
             Answer the student's question strictly using the provided source evidence below.
             Do not make up facts, citations, or formulas.
@@ -174,17 +203,31 @@ def generate_grounded_tutor_response(
             2. How the concept works in practice, citing the exact source and page/slide/timestamp.
             3. A short takeaway or memory tip for exams.
             """
+
+    # Try free-tier Groq first
+    used_external_ai = False
+    groq_content = _call_groq_free_tier(prompt)
+    if groq_content:
+        content = groq_content
+        tutor_elaboration = "Synthesized and adapted for clear exam comprehension."
+        used_external_ai = True
+
+    # Fallback to Gemini if available
+    if not used_external_ai and GEMINI_API_KEY:
+        try:
+            import google.generativeai as genai
+            genai.configure(api_key=GEMINI_API_KEY)
+            model = genai.GenerativeModel("gemini-1.5-flash")
             gemini_res = model.generate_content(prompt)
             if gemini_res and gemini_res.text:
                 content = gemini_res.text
                 tutor_elaboration = "Synthesized and adapted for clear exam comprehension."
-                used_gemini = True
+                used_external_ai = True
         except Exception as e:
             logger.warning(f"Gemini API call failed or not configured, falling back to local grounded synthesis: {e}")
-            used_gemini = False
 
     # Standalone high-quality synthesis if not using Gemini
-    if not used_gemini:
+    if not used_external_ai:
         primary_unit = retrieved[0]
         primary_cit = citations[0]
         

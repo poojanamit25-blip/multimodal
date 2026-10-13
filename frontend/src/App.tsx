@@ -93,12 +93,8 @@ export const App: React.FC = () => {
 
   const checkHealthAndLoadData = async () => {
     try {
-      const healthRes = await fetch('/health').catch(() => null);
-      if (healthRes && healthRes.ok) {
-        setBackendOnline(true);
-      } else {
-        setBackendOnline(false);
-      }
+      const health = await api.healthCheck().catch(() => null);
+      setBackendOnline(Boolean(health && health.status === 'healthy'));
 
       // Load courses
       const courseList = await api.listCourses().catch(() => []);
@@ -450,7 +446,10 @@ export const App: React.FC = () => {
         isOpen={isCommandPaletteOpen}
         onClose={() => setIsCommandPaletteOpen(false)}
         onNavigate={setActiveView}
-        onAskTutor={(query) => setActiveView('tutor')}
+        onAskTutor={(query) => {
+          setInitialTutorQuestion(query);
+          setActiveView('tutor');
+        }}
         onToggleLanguage={() => setPreferredLanguage((l) => (l === 'en' ? 'hi' : 'en'))}
         onToggleTheme={() => setIsDarkTheme(!isDarkTheme)}
       />
