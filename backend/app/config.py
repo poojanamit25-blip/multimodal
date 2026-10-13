@@ -13,6 +13,8 @@ UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
 
 # API Keys (Optional, fallback to local semantic pipeline if not set)
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
 
 # App Configuration
 APP_NAME = "Synapse AI Study Companion"

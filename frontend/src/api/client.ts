@@ -16,6 +16,8 @@ async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
 }
 
 export const api = {
+  healthCheck: () => fetchJson<{ status: string; service: string; time: string }>(`${API_BASE}/health`),
+
   // Courses
   listCourses: () => fetchJson<Course[]>(`${API_BASE}/courses`),
   getCourseTopics: (courseId: string) => fetchJson<string[]>(`${API_BASE}/courses/${courseId}/topics`),

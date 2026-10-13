@@ -532,3 +532,7 @@ def get_latest_evaluation():
 @app.get("/health")
 def health_check():
     return {"status": "healthy", "service": APP_NAME, "time": datetime.utcnow().isoformat()}
+
+@app.get(f"{API_PREFIX}/health")
+def api_health_check():
+    return health_check()
