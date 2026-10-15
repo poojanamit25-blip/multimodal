@@ -1,0 +1,7 @@
+backend/
+maven/
+target/
+.git/
+.idea/
+.vscode/
+*.log
