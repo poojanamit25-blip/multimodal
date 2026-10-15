@@ -1,163 +1,322 @@
-# Synapse AI Study Companion
+# ⚡ KODEXIS
 
-> **A real, student-focused multimodal AI study companion bringing lecture videos, textbooks, and presentation slides together into a unified, source-grounded learning workspace.**
+### AI Technical Interview Intelligence & Multi-Factor Coding Assessment Sandbox
 
-Designed with a sleek, dark/modern web workspace inspired by the Replit web interface, Synapse features source-grounded tutoring, adaptive quizzes with pre-assessment validation, a calibrated Bayesian Knowledge Tracing (BKT) learner model, and an automated RAGAS-inspired evaluation suite.
+[![Java 21](https://img.shields.io/badge/Java-21-orange?style=flat&logo=openjdk)](https://openjdk.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.3.2-brightgreen?style=flat&logo=springboot)](https://spring.io/projects/spring-boot)
+[![React](https://img.shields.io/badge/React-19.2-blue?style=flat&logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-8.x-purple?style=flat&logo=vite)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=flat&logo=tailwind-css)](https://tailwindcss.com/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat&logo=docker)](https://www.docker.com/)
+[![Render](https://img.shields.io/badge/Deploy-Render-46E3B7?style=flat&logo=render)](https://render.com/)
+[![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=flat&logo=vercel)](https://vercel.com/)
 
----
+> **"Don't just write code. Prove how you think."**
 
-## 🌟 Key Product Capabilities
-
-### 1. Multimodal Knowledge Base & Ingestion Pipeline
-- **Unified Document Ingestion**: Upload academic textbooks (`.pdf`), PowerPoint presentation slides (`.pptx`), and lecture recordings / transcripts (`.mp4`, `.vtt`, `.srt`, `.txt`).
-- **Layout & Content Extraction**: Parses headings, sections, tables, equations, and presenter notes using `pypdf` and `python-pptx`.
-- **Timestamped Transcripts**: Retains exact timestamps pointing to the original lecture audio/video recording.
-- **Searchable Content Units**: Chunks documents into indexed units tagged with topics, page numbers, slide numbers, or second-level timestamps.
-- **Hybrid RAG Retrieval**: Combines 256-dimensional dense vector embeddings with BM25 term weighting and Reciprocal Rank Fusion (RRF) for millisecond keyword and conceptual retrieval.
-
-### 2. Source-Grounded AI Tutoring & Split-Pane Viewer
-- **Strict Citation Grounding**: Every answer is anchored by citations pointing to textbook pages, slides, or lecture timestamps (e.g. `[Slide 14]`, `[Textbook p. 24]`, `[Lecture 14:20]`).
-- **Interactive Source Viewer**: Clicking any citation instantly seeks the video player to that timestamp or navigates the reader to the exact slide/page with highlighted evidence.
-- **Evidence vs. Elaboration**: Clear visual distinction separating direct quotation excerpts from the tutor's synthesized explanation.
-- **Zero-Hallucination Guardrails**: Out-of-curriculum queries (e.g. biology, quantum computing) trigger strict refusal notices rather than hallucinated answers.
-- **Bilingual & Voice Support**: Toggle explanations into conversational Hindi / Hinglish while preserving English technical terms. Includes voice recitation powered by the Web Speech API.
-
-### 3. Adaptive Quizzes & Mock Exams
-- **Multi-Type Question Bank**: Generates Multiple Choice (MCQ), Numerical / problem-solving (with parameter checks and tolerance bounds), and Conceptual Short Answer questions.
-- **Pre-Assessment Solvability Validation**: Verifies that every generated question is solvable using the available source materials and has defensible answers.
-- **Question Deduplication**: Tracks student question presentation history with normalized hashes to prevent repetitive quizzes across sessions.
-- **Misconception Diagnosis**: Identifies root misconceptions (e.g., confusing crash failure quorums $2f+1$ with Byzantine agreement bounds $3f+1$).
-- **Comprehensive Performance Report**: Post-assessment report showing score, topic-wise breakdown, weak areas, and direct links to review materials.
-
-### 4. Personalized Learner Model (Bayesian Knowledge Tracing)
-- **Calibrated BKT Engine**: Tracks prior knowledge $P(L_0)$, transition rate $P(T)$, guess probability $P(G)$, and slip probability $P(S)$ after every attempt.
-- **Uncertainty & Confidence Calibration**: Distinguishes demonstrated mastery from cold-start uncertainty based on attempt volume.
-- **Ebbinghaus Forgetting Curve**: Models retention decay over time to flag concepts for urgent spaced revision.
-- **Diagnostic Onboarding**: Establishes student baseline skill level rather than assuming zero knowledge.
-
-### 5. Automated Evaluation & Quality Assurance (QA)
-- **Built-in Benchmark Suite**: Evaluates retrieval precision, context recall, factual faithfulness, answer relevancy, citation accuracy, and refusal correctness over gold test items.
-- **Multi-Persona Simulation**: Simulates three student archetypes (*Struggling Learner*, *Average Student*, *Fast Learner*) across 5 consecutive practice sessions to verify mastery convergence.
-
-### 6. Additional Learning Features
-- **Visual Concept Knowledge Map**: Interactive directed graph of topics, subtopics, and prerequisite dependencies.
-- **Spaced Repetition Flashcards**: SuperMemo-2 (SM-2) algorithm for daily spaced repetition decks.
-- **2-Minute Audio Revision Summaries**: Synthesized rapid audio recaps with core exam invariants.
-- **7-Day Adaptive Study Planner**: Countdown schedule prioritizing urgent topics based on forgetting decay.
-- **Command Palette (`Ctrl+K`)**: Instant search and navigation across all views.
+**KODEXIS** is an AI-powered technical interview simulation, live coding execution sandbox, and multi-factor proficiency assessment platform. Built for modern software engineering hiring and candidate upskilling, it combines a **Monaco-based IDE**, an **isolated Docker sandbox runtime**, **anti-cheat proctoring**, a **Socratic AI tutor**, and a **Bayesian Knowledge Tracing (BKT)** engine.
 
 ---
 
-## 🏗️ Technical Architecture
+## 📑 Table of Contents
+
+1. [Architectural Overview](#-architectural-overview)
+2. [Core Platform Features](#-core-platform-features)
+3. [Technology Stack](#-technology-stack)
+4. [Project Structure](#-project-structure)
+5. [Prerequisites & Environment Setup](#-prerequisites--environment-setup)
+6. [Local Quickstart](#-local-quickstart)
+   - [Running the Spring Boot Backend](#1-running-the-spring-boot-backend)
+   - [Running the React Frontend](#2-running-the-react-frontend)
+   - [Running the Standalone Mock Server](#3-running-the-standalone-mock-server-alternative)
+7. [REST API Documentation](#-rest-api-documentation)
+8. [Deployment Guide](#-deployment-guide)
+   - [Deploying to Render (Blueprint)](#deploying-to-render-blueprint)
+   - [Deploying to Vercel (Frontend)](#deploying-to-vercel-frontend)
+   - [Docker Containerization](#docker-containerization)
+9. [Default Demo Credentials](#-default-demo-credentials)
+10. [Testing & Quality Verification](#-testing--quality-verification)
+
+---
+
+## 🏛️ Architectural Overview
 
 ```
-Multimodal/
-├── backend/
-│   ├── app/
-│   │   ├── config.py              # Application settings, paths, API keys
-│   │   ├── database.py            # SQLite database with WAL mode and tables
-│   │   ├── main.py                # FastAPI REST endpoints and background tasks
-│   │   ├── models/
-│   │   │   └── schemas.py         # Pydantic data schemas
-│   │   ├── services/
-│   │   │   ├── ingestion.py       # Multimodal parsing (PDF, PPTX, video transcripts)
-│   │   │   ├── rag_engine.py      # Dense vector + BM25 hybrid retrieval
-│   │   │   ├── tutor.py           # Grounded tutoring and refusal engine
-│   │   │   ├── assessment.py      # Quiz generation, grading, deduplication
-│   │   │   ├── learner_model.py   # Bayesian Knowledge Tracing mastery engine
-│   │   │   ├── evaluation.py      # Quality assurance benchmark & student simulation
-│   │   │   └── features.py        # Concept map, SM-2 flashcards, audio summaries
-│   │   └── tests/
-│   │       └── test_suite.py      # Pytest unit & integration test suite
-│   ├── requirements.txt
-│   └── data/                      # Persistent database & uploaded media storage
-├── frontend/
-│   ├── src/
-│   │   ├── components/            # Header, Sidebar, TutorChat, SourceViewer,
-│   │   │                          # AssessmentRunner, PerformanceReport, KnowledgeGraph,
-│   │   │                          # RevisionCenter, StudyPlanner, LearnerDashboard,
-│   │   │                          # EvaluationSuite, DocumentManager, CommandPalette
-│   │   ├── api/client.ts          # Typed REST API client
-│   │   ├── types/index.ts         # TypeScript interfaces
-│   │   ├── App.tsx                # Main Replit workspace assembly
-│   │   └── index.css              # Custom styling & dark/light theme tokens
-│   ├── package.json
-│   └── vite.config.ts
-└── README.md
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              KODEXIS CLIENT                                 │
+│         React 19 + TypeScript + Vite + Tailwind CSS + Monaco Editor         │
+│  - Interactive IDE & Terminal  - 9-Factor Radar Analytics  - Socratic Tutor │
+└──────────────────────┬───────────────────────────────┬──────────────────────┘
+                       │ REST / JWT                    │ Direct Fallback
+                       ▼                               ▼
+┌─────────────────────────────────────────┐  ┌────────────────────────────────┐
+│         KODEXIS BACKEND (JVM)           │  │      EXTERNAL SERVICES         │
+│  Spring Boot 3.3.2 / Java 21 / Security │  │                                │
+│  - Multi-Factor Assessment Engine       │  │  - Piston Code Execution API   │
+│  - Bayesian Knowledge Tracing (BKT)     │  │    (EMKC Isolated Sandbox)     │
+│  - Knowledge Ingestion & RAG Pipeline   │  │  - Mistral AI / NVIDIA NIM API │
+│  - Persistent H2 / PostgreSQL Storage   │  │    (Conversational Brain)      │
+└─────────────────────────────────────────┘  └────────────────────────────────┘
 ```
 
 ---
 
-## ⚡ Quick Start & Installation
+## 🌟 Core Platform Features
 
-### Prerequisites
-- **Python**: 3.10+ (Tested on Python 3.14)
-- **Node.js**: v18+ (Tested on Node.js v24)
-- **Git**
+### 1. Monaco Code Editor & Live Execution Sandbox
+- Full Monaco-powered code editor with support for **Java, Python, C++, C, and JavaScript**.
+- Instant compilation and execution against both public and hidden test cases powered by the **Piston API**.
+- Custom standard input (stdin) testing console with live STDOUT and STDERR stream inspection.
 
-### 1. Backend Setup
+### 2. Multi-Factor Coding Proficiency Assessment Framework
+Evaluates candidate solutions across 9 holistic dimensions with weighted scoring:
+- **Code Correctness (30%)**: Exact pass-rate percentage across public and edge test suites.
+- **Problem Solving (20%)**: Optimal algorithm design vs brute-force detection.
+- **Complexity Optimization (15%)**: Automated asymptotic estimation ($O(1)$, $O(N)$, $O(N \log N)$, $O(N^2)$) for runtime and memory.
+- **Code Quality & Modularity (10%)**: Cyclomatic complexity, naming conventions, and clean code hygiene.
+- **Edge-Case Resilience (10%)**: Handling of empty inputs, negative numbers, overflow boundaries, and singletons.
+- **Debugging Efficiency (10%)**: Speed and iteration count from compilation errors to valid solutions.
+- **Communication & Logic (5%)**: Socratic conceptual explanations and architectural justification.
+
+### 3. Anti-Cheat Proctoring & Infraction Auditing
+- Tracks window focus loss and browser tab-switching telemetry during interview sessions.
+- Automatically calculates proctoring penalties and logs suspicious actions into the interview autopsy timeline.
+
+### 4. Socratic AI Interviewer & Knowledge Hub (RAG)
+- Conversational AI interviewer that probes candidates on algorithm trade-offs, edge cases, and time/space constraints.
+- Multi-lingual tutoring support (**English, Hindi, and Hinglish**).
+- Grounded document citations with page/slide mapping for course materials.
+
+### 5. Bayesian Knowledge Tracing (BKT) & Learner DAG
+- Dynamic Directed Acyclic Graph (DAG) visualizing concept mastery and prerequisite topics.
+- Cold-start baseline assessment with adaptive diagnostic quizzes that adjust difficulty in real-time.
+
+### 6. Study Calendar & Targeted Revision Studio
+- Personalized automated study plans targeting diagnostic weak points.
+- Interactive flashcards, spaced repetition reminders, and weakness-loop alert trackers.
+
+---
+
+## 💻 Technology Stack
+
+### Backend
+- **Language**: Java 21 LTS
+- **Framework**: Spring Boot 3.3.2
+- **Security**: Spring Security 6 with stateless JWT authentication (`jjwt 0.12.5`)
+- **Database**: Embedded Persistent H2 (PostgreSQL compatibility mode) / PostgreSQL
+- **ORM**: Spring Data JPA / Hibernate
+
+### Frontend
+- **Framework**: React 19 + TypeScript
+- **Bundler & Tooling**: Vite 8, Oxlint
+- **Styling**: Tailwind CSS 3.4, PostCSS, Framer Motion
+- **Code Editor**: `@monaco-editor/react` (VS Code engine)
+- **Charts & Visualizations**: Recharts 2.15, Lucide Icons, Spline 3D Runtime
+
+### Integrations & Services
+- **AI Models**: Mistral AI API (`open-mistral-7b`) / NVIDIA NIM (`llama-3.1-nemotron-70b-instruct`) with deterministic offline fallback.
+- **Sandbox Engine**: Piston Remote Sandbox (`https://emkc.org/api/v2/piston/execute`).
+
+---
+
+## 📂 Project Structure
+
+```
+Kodexis/
+├── backend/                              # Spring Boot Java 21 Backend
+│   ├── src/main/java/com/kodexis/core/
+│   │   ├── ai/                          # Mistral AI / LLM Integration
+│   │   ├── controller/                  # REST Controllers (Auth, Interview, Progress, Admin)
+│   │   ├── db/                          # Database Seed Initializer (DataInitializer)
+│   │   ├── learning/                    # Learning Hub (BKT, RAG, Ingestion, Calendar)
+│   │   ├── model/                       # JPA Entities (User, Session, Assessment, etc.)
+│   │   ├── repository/                  # Spring Data JPA Repositories
+│   │   ├── sandbox/                     # Piston Remote Sandbox Execution Service
+│   │   ├── security/                    # JWT Filter, Token Service, Security Config
+│   │   └── service/                     # Assessment Engine & Adaptive Difficulty
+│   ├── src/main/resources/
+│   │   └── application.properties       # Spring Datasource, JWT, Port configs
+│   ├── Dockerfile                       # Multi-stage Docker build for backend
+│   └── pom.xml                          # Maven dependencies and build definition
+├── src/                                 # React 19 Frontend Source
+│   ├── components/                      # Reusable UI widgets, Radars, Streak Badges
+│   ├── context/                         # AuthContext (JWT) & ThemeContext
+│   ├── lib/                             # api.ts (Zero-Latency Guard), RAG, Elsa AI
+│   └── pages/                           # Application Views (Dashboard, IDE, Reports, etc.)
+├── public/                              # Static public web assets
+├── Dockerfile                           # Root Dockerfile for cloud container platforms
+├── render.yaml                          # Render 1-Click Blueprint (Web Service + Static Site)
+├── vercel.json                          # Vercel SPA deployment configuration
+├── package.json                         # Node dependencies & npm scripts
+├── vite.config.ts                       # Vite build configuration
+├── tailwind.config.js                   # Tailwind CSS design system tokens
+├── server.cjs                           # Standalone Node.js mock/fallback API server
+└── .env.example                         # Environment configuration template
+```
+
+---
+
+## ⚙️ Prerequisites & Environment Setup
+
+Ensure you have the following installed locally:
+- **Java Development Kit (JDK) 21** or higher (`java -version`)
+- **Apache Maven 3.9+** (or use bundled `./maven/apache-maven-3.9.6/bin/mvn`)
+- **Node.js v18+** and **npm v10+** (`node -v`, `npm -v`)
+
+### Setting up Environment Variables
+Copy `.env.example` to `.env`:
+```bash
+cp .env.example .env
+```
+
+Key variables configured in `.env`:
+```ini
+# Mistral AI API (Optional - offline demo fallback triggers if left empty)
+MISTRAL_API_KEY=your_mistral_api_key_here
+MISTRAL_API_URL=https://api.mistral.ai/v1/chat/completions
+MISTRAL_MODEL=open-mistral-7b
+
+# Client-Side URL configuration
+VITE_API_URL=http://localhost:8080
+VITE_MISTRAL_API_KEY=your_mistral_api_key_here
+
+# Backend Security
+PORT=8080
+JWT_SECRET=5f4dcc3b5aa765d61d8327deb882cf995f4dcc3b5aa765d61d8327deb882cf99
+```
+
+---
+
+## 🚀 Local Quickstart
+
+### 1. Running the Spring Boot Backend
 
 ```bash
 cd backend
-
-# Install Python dependencies
-python -m pip install -r requirements.txt
-
-# (Optional) Set a free-tier Groq API key for external LLM generation;
-# falls back to Gemini key if provided, then to built-in offline synthesis if omitted
-# set GROQ_API_KEY="your_groq_api_key_here"
-# set GEMINI_API_KEY="your_gemini_api_key_here"
-
-# Run backend unit tests to verify system integrity
-python -m pytest app/tests/test_suite.py -v
-
-# Start FastAPI backend server
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+mvn clean compile
+mvn spring-boot:run
 ```
-
-The backend API documentation is available at:
-`http://127.0.0.1:8000/docs`
-
-### 2. Frontend Setup
-
-In a second terminal:
-
+*Note: If `mvn` is not globally on your PATH, use the bundled Maven runner:*
 ```bash
-cd frontend
+# Windows PowerShell:
+..\maven\apache-maven-3.9.6\bin\mvn.cmd spring-boot:run
+```
+The backend starts at: **`http://localhost:8080`**
+- **H2 Database Console**: `http://localhost:8080/h2-console`
+  - JDBC URL: `jdbc:h2:file:./data/kodexisdb`
+  - User: `sa` | Password: `password`
+- **Health Check Ping**: `http://localhost:8080/api/auth/ping`
 
-# Install npm dependencies
+### 2. Running the React Frontend
+
+Open a new terminal in the project root:
+```bash
 npm install
-
-# Start Vite development server
-npm run dev -- --host 127.0.0.1 --port 5173
+npm run dev
 ```
+The client launches at: **`http://localhost:5173`**
 
-Open your browser at `http://127.0.0.1:5173/` to use the application.
+### 3. Running the Standalone Mock Server (Alternative)
+For testing frontend UI workflows without running the JVM:
+```bash
+npm run mock:server
+```
+Runs a lightweight Node.js simulation server on port `8080`.
 
 ---
 
-## 🧪 Automated Testing & Evaluation
+## 📡 REST API Documentation
 
-Synapse comes with an end-to-end evaluation pipeline:
+### Authentication (`/api/auth`)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/auth/ping` | Health check endpoint returning `UP` status |
+| `POST` | `/api/auth/register` | Register new candidate account |
+| `POST` | `/api/auth/login` | Authenticate credentials and return JWT token |
+| `POST` | `/api/auth/onboard` | Set target role, companies, and preferred language |
+| `GET` | `/api/auth/me` | Retrieve active authenticated session profile |
+
+### Interview & Execution Engine (`/api/interviews`)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/interviews` | Create adaptive interview session |
+| `GET` | `/api/interviews/{id}` | Fetch session metadata, question, and telemetry |
+| `GET` | `/api/interviews/{id}/messages` | Retrieve conversation chat history |
+| `POST` | `/api/interviews/{id}/message` | Send candidate query to AI Interviewer |
+| `POST` | `/api/interviews/{id}/run` | Execute code on public test cases via Piston Sandbox |
+| `POST` | `/api/interviews/{id}/submit` | Execute all test suites and run Multi-Factor Assessment |
+| `GET` | `/api/interviews/{id}/assessment`| Fetch comprehensive autopsy scorecard and metrics |
+
+### Progress & Telemetry (`/api/progress`)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/progress/dashboard` | Candidate Technical DNA, weakness radar, and history |
+
+### Learning Hub & Socratic RAG (`/api/learning`)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/learning/knowledge/topics` | List computer science topic taxonomy |
+| `POST` | `/api/learning/knowledge/query` | RAG semantic retrieval with document citations |
+| `GET` | `/api/learning/assessment/diagnostic` | Adaptive BKT diagnostic test generation |
+| `POST` | `/api/learning/assessment/submit` | Update BKT learner parameters and DAG mastery |
+| `GET` | `/api/learning/course-map/graph` | Directed Acyclic Graph (DAG) topic dependencies |
+| `GET` | `/api/learning/calendar/schedule` | Spaced repetition study schedule and events |
+
+---
+
+## 🌐 Deployment Guide
+
+### Deploying to Render (Blueprint)
+The repository includes a production [`render.yaml`](./render.yaml) blueprint:
+1. Push your repository to GitHub.
+2. Go to [dashboard.render.com](https://dashboard.render.com/) -> **New +** -> **Blueprint**.
+3. Select your repository. Render will automatically provision:
+   - **`kodexis-backend`**: Docker Web Service running Spring Boot on port 8080.
+   - **`kodexis-frontend`**: Static Site with automatic SPA rewrites pointing to `dist/`.
+
+### Deploying to Vercel (Frontend)
+1. Import the repository at [vercel.com/new](https://vercel.com/new).
+2. Framework Preset: **Vite** | Root Directory: `./`.
+3. Add Environment Variable:
+   - `VITE_API_URL`: URL of your deployed backend (e.g., `https://kodexis-backend.onrender.com`).
+4. Click **Deploy**. Vercel will build and distribute the app globally via Edge CDN.
+
+### Docker Containerization
+Build and run the unified backend container:
+```bash
+docker build -t kodexis-backend:latest -f Dockerfile .
+docker run -p 8080:8080 -e PORT=8080 kodexis-backend:latest
+```
+
+---
+
+## 🔑 Default Demo Credentials
+
+The database auto-seeds the following accounts on initial startup:
+
+| Account Type | Username | Password | Notes |
+| :--- | :--- | :--- | :--- |
+| **Candidate** | `vicky` | `password` | Pre-populated with historical mock interviews and Technical DNA |
+| **Administrator** | `admin` | `admin123` | Access to `/admin` diagnostic cohort consoles |
+
+---
+
+## 🧪 Testing & Quality Verification
+
+To verify code quality and builds:
 
 ```bash
-# Run backend test suite
-cd backend
-python -m pytest app/tests/test_suite.py -v
-```
+# 1. Type-check and production bundle build
+npm run build
 
-All 5 test suites pass:
-1. `test_embedding_and_rag_retrieval`: Dense vector embedding similarity and hybrid retrieval.
-2. `test_tutor_grounding_and_refusal`: Grounded citation retrieval and out-of-curriculum refusal enforcement.
-3. `test_assessment_generation_and_grading`: Solvability checks, numerical formula tolerance checks, and MCQ grading.
-4. `test_learner_model_bkt_updates`: Bayesian Knowledge Tracing posterior formula and uncertainty intervals.
-5. `test_evaluation_pipeline_metrics`: RAGAS benchmark metric bounds and multi-session learner trajectory simulation.
+# 2. Fast linting across frontend codebase
+npm run lint
+
+# 3. Backend compilation and tests
+cd backend && mvn test-compile
+```
 
 ---
 
-## 🔒 Security & Best Practices
-
-- **Zero API Lock-In**: Works 100% out of the box with zero external dependencies or API keys.
-- **Traceability**: All answers, flashcards, and quiz items retain explicit references to source documents, page numbers, slide numbers, or video timestamps.
-- **Strict Guardrails**: Refuses to answer queries unsupported by the curriculum to prevent misleading students during exam preparation.
-- **Local Storage**: All files and SQLite data remain securely on the user's local disk.
+## 📄 License
+This project is licensed under the MIT License.

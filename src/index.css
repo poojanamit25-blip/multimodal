@@ -1,0 +1,551 @@
+@import url('https://fonts.googleapis.com/css2?family=Junge&family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Dancing+Script:wght@600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   GLOBAL THEME DESIGN TOKENS (DYNAMIC CSS VARIABLES)
+   1. OBSIDIAN LUXE: Polished graphite titanium executive dark
+   2. PROFESSIONAL WHITE & BLACK: High-contrast executive studio monochrome
+   ========================================================================== */
+
+/* 1. OBSIDIAN LUXE (DEFAULT & EXECUTIVE DARK) */
+:root,
+[data-theme='obsidian-luxe'],
+[data-theme='enterprise-slate'] {
+  --theme-font: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --theme-font-mono: 'JetBrains Mono', monospace;
+  --theme-font-display: 'Plus Jakarta Sans', sans-serif;
+  --theme-letter-spacing: -0.015em;
+  --theme-radius: 10px;
+  --theme-radius-sm: 6px;
+  --theme-radius-lg: 14px;
+  --theme-radius-pill: 9999px;
+  --theme-panel-shadow: 0 12px 35px -8px rgba(0, 0, 0, 0.7), 0 0 1px rgba(255, 255, 255, 0.1);
+
+  --color-bg-default: #08090b;
+  --color-bg-panel: #0e1116;
+  --color-bg-card: #141820;
+  --color-bg-elevated: #1c222d;
+  --color-border: #232a38;
+  --color-border-active: #38bdf8;
+  --color-brand-cyan: #38bdf8;
+  --color-brand-cyan-hover: #0284c7;
+  --color-brand-cyan-dim: rgba(56, 189, 248, 0.14);
+  --color-brand-violet: #818cf8;
+  --color-brand-violet-hover: #6366f1;
+  --color-brand-violet-dim: rgba(129, 140, 248, 0.14);
+  --color-brand-emerald: #10b981;
+  --color-brand-emerald-hover: #059669;
+  --color-brand-emerald-dim: rgba(16, 185, 129, 0.14);
+  --glass-bg: rgba(14, 17, 22, 0.9);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  color-scheme: dark;
+}
+
+/* 2. PROFESSIONAL WHITE AND BLACK (EXECUTIVE MONOCHROME) */
+[data-theme='professional-light'],
+[data-theme='nordic-light'] {
+  --theme-font: 'Inter', 'Plus Jakarta Sans', sans-serif;
+  --theme-font-mono: 'JetBrains Mono', monospace;
+  --theme-font-display: 'Plus Jakarta Sans', sans-serif;
+  --theme-letter-spacing: -0.015em;
+  --theme-radius: 8px;
+  --theme-radius-sm: 5px;
+  --theme-radius-lg: 12px;
+  --theme-radius-pill: 9999px;
+  --theme-panel-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.12);
+
+  --color-bg-default: #ffffff;
+  --color-bg-panel: #f8fafc;
+  --color-bg-card: #ffffff;
+  --color-bg-elevated: #f1f5f9;
+  --color-border: #e2e8f0;
+  --color-border-active: #09090b;
+  --color-brand-cyan: #09090b;
+  --color-brand-cyan-hover: #27272a;
+  --color-brand-cyan-dim: rgba(9, 9, 11, 0.08);
+  --color-brand-violet: #2563eb;
+  --color-brand-violet-hover: #1d4ed8;
+  --color-brand-violet-dim: rgba(37, 99, 235, 0.1);
+  --color-brand-emerald: #059669;
+  --color-brand-emerald-hover: #047857;
+  --color-brand-emerald-dim: rgba(5, 150, 105, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.96);
+  --glass-border: rgba(226, 232, 240, 0.9);
+  color-scheme: light;
+}
+
+/* Professional White & Black text & component contrast rules */
+[data-theme='professional-light'] body,
+[data-theme='nordic-light'] body {
+  color: #09090b !important;
+  background-color: #ffffff !important;
+}
+
+/* Text colors in light mode (applied ONLY to elements outside buttons) */
+[data-theme='professional-light'] :not(button):not(button *) > .text-zinc-100,
+[data-theme='professional-light'] :not(button):not(button *) > .text-zinc-200,
+[data-theme='professional-light'] :not(button):not(button *) > .text-zinc-300,
+[data-theme='professional-light'] p.text-zinc-100,
+[data-theme='professional-light'] p.text-zinc-200,
+[data-theme='professional-light'] p.text-zinc-300,
+[data-theme='professional-light'] h1.text-zinc-100,
+[data-theme='professional-light'] h2.text-zinc-100,
+[data-theme='professional-light'] h3.text-zinc-100,
+[data-theme='professional-light'] h4.text-zinc-100,
+[data-theme='professional-light'] h5.text-zinc-100,
+[data-theme='professional-light'] h6.text-zinc-100,
+[data-theme='nordic-light'] :not(button):not(button *) > .text-zinc-100,
+[data-theme='nordic-light'] :not(button):not(button *) > .text-zinc-200,
+[data-theme='nordic-light'] :not(button):not(button *) > .text-zinc-300 {
+  color: #09090b !important;
+}
+
+[data-theme='professional-light'] :not(button):not(button *) > .text-zinc-400,
+[data-theme='professional-light'] :not(button):not(button *) > .text-zinc-500,
+[data-theme='nordic-light'] :not(button):not(button *) > .text-zinc-400,
+[data-theme='nordic-light'] :not(button):not(button *) > .text-zinc-500 {
+  color: #475569 !important;
+}
+
+[data-theme='professional-light'] :not(button):not(button *) > .text-zinc-600,
+[data-theme='nordic-light'] :not(button):not(button *) > .text-zinc-600 {
+  color: #64748b !important;
+}
+
+/* Light surface mapping for all zinc and dark background panels/cards (EXCLUDING buttons) */
+[data-theme='professional-light'] div[class*='bg-zinc-950']:not(.fixed),
+[data-theme='professional-light'] div[class*='bg-zinc-900']:not(.fixed),
+[data-theme='professional-light'] div[class*='bg-zinc-800']:not(.fixed),
+[data-theme='professional-light'] section[class*='bg-zinc-950'],
+[data-theme='professional-light'] section[class*='bg-zinc-900'],
+[data-theme='professional-light'] p[class*='bg-zinc-950'],
+[data-theme='professional-light'] span[class*='bg-zinc-950']:not(button *),
+[data-theme='nordic-light'] div[class*='bg-zinc-950']:not(.fixed),
+[data-theme='nordic-light'] div[class*='bg-zinc-900']:not(.fixed),
+[data-theme='nordic-light'] div[class*='bg-zinc-800']:not(.fixed) {
+  background-color: #f8fafc !important;
+}
+
+[data-theme='professional-light'] div.bg-zinc-950,
+[data-theme='professional-light'] div.bg-zinc-900,
+[data-theme='nordic-light'] div.bg-zinc-950,
+[data-theme='nordic-light'] div.bg-zinc-900 {
+  background-color: #ffffff !important;
+}
+
+[data-theme='professional-light'] div.bg-zinc-800,
+[data-theme='nordic-light'] div.bg-zinc-800 {
+  background-color: #f1f5f9 !important;
+}
+
+/* Pre, Code, and elevated panels */
+[data-theme='professional-light'] pre,
+[data-theme='professional-light'] [class*='bg-zinc-950'] pre,
+[data-theme='professional-light'] [class*='bg-zinc-900'] pre,
+[data-theme='nordic-light'] pre,
+[data-theme='nordic-light'] [class*='bg-zinc-950'] pre,
+[data-theme='nordic-light'] [class*='bg-zinc-900'] pre {
+  background-color: #f1f5f9 !important;
+  color: #09090b !important;
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme='professional-light'] pre code,
+[data-theme='nordic-light'] pre code {
+  background-color: transparent !important;
+  color: #09090b !important;
+}
+
+[data-theme='professional-light'] code:not(pre code),
+[data-theme='nordic-light'] code:not(pre code) {
+  background-color: #f1f5f9 !important;
+  color: #09090b !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Modal dark backdrops */
+[data-theme='professional-light'] .fixed[class*='bg-black'],
+[data-theme='professional-light'] .fixed[class*='bg-black/'],
+[data-theme='nordic-light'] .fixed[class*='bg-black'],
+[data-theme='nordic-light'] .fixed[class*='bg-black/'] {
+  background-color: rgba(0, 0, 0, 0.75) !important;
+}
+
+/* Border lines on non-buttons */
+[data-theme='professional-light'] div[class*='border-zinc-900'],
+[data-theme='professional-light'] div[class*='border-zinc-800'],
+[data-theme='professional-light'] div[class*='border-zinc-700'],
+[data-theme='nordic-light'] div[class*='border-zinc-900'],
+[data-theme='nordic-light'] div[class*='border-zinc-800'],
+[data-theme='nordic-light'] div[class*='border-zinc-700'] {
+  border-color: #e2e8f0 !important;
+}
+
+/* ==========================================================================
+   EXECUTIVE BUTTON CONTRAST ARCHITECTURE (FIX ALL BUTTON OVERRIDING)
+   ========================================================================== */
+
+/* 1. PRIMARY ACTION BUTTONS (Solid Executive Black with Crisp White Text in Light Mode) */
+[data-theme='professional-light'] button.bg-brand-cyan,
+[data-theme='professional-light'] button[class*='bg-brand-cyan'],
+[data-theme='professional-light'] button.bg-zinc-950,
+[data-theme='professional-light'] button[class*='bg-zinc-950'],
+[data-theme='professional-light'] button.bg-zinc-900,
+[data-theme='professional-light'] button[class*='bg-zinc-900'],
+[data-theme='professional-light'] button.btn-neon-cyan,
+[data-theme='nordic-light'] button.bg-brand-cyan,
+[data-theme='nordic-light'] button[class*='bg-brand-cyan'],
+[data-theme='nordic-light'] button.bg-zinc-900,
+[data-theme='nordic-light'] button[class*='bg-zinc-900'],
+[data-theme='nordic-light'] button.btn-neon-cyan {
+  background-color: #09090b !important;
+  color: #ffffff !important;
+  border-color: #09090b !important;
+}
+
+[data-theme='professional-light'] button.bg-brand-cyan *,
+[data-theme='professional-light'] button[class*='bg-brand-cyan'] *,
+[data-theme='professional-light'] button.bg-zinc-950 *,
+[data-theme='professional-light'] button[class*='bg-zinc-950'] *,
+[data-theme='professional-light'] button.bg-zinc-900 *,
+[data-theme='professional-light'] button[class*='bg-zinc-900'] *,
+[data-theme='professional-light'] button.btn-neon-cyan *,
+[data-theme='nordic-light'] button.bg-brand-cyan *,
+[data-theme='nordic-light'] button[class*='bg-brand-cyan'] *,
+[data-theme='nordic-light'] button.bg-zinc-900 *,
+[data-theme='nordic-light'] button[class*='bg-zinc-900'] *,
+[data-theme='nordic-light'] button.btn-neon-cyan * {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+[data-theme='professional-light'] button.bg-brand-cyan:hover,
+[data-theme='professional-light'] button[class*='bg-brand-cyan']:hover,
+[data-theme='professional-light'] button.bg-zinc-950:hover,
+[data-theme='professional-light'] button[class*='bg-zinc-950']:hover,
+[data-theme='professional-light'] button.bg-zinc-900:hover,
+[data-theme='professional-light'] button[class*='bg-zinc-900']:hover,
+[data-theme='professional-light'] button.btn-neon-cyan:hover,
+[data-theme='nordic-light'] button.btn-neon-cyan:hover {
+  background-color: #27272a !important;
+  border-color: #27272a !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* 2. BRAND VIOLET / INDIGO ACTION BUTTONS (Solid Blue/Violet with White Text in Light Mode) */
+[data-theme='professional-light'] button.bg-brand-violet,
+[data-theme='professional-light'] button[class*='bg-brand-violet']:not([class*='bg-brand-violet/10']):not([class*='bg-brand-violet/20']),
+[data-theme='nordic-light'] button.bg-brand-violet,
+[data-theme='nordic-light'] button[class*='bg-brand-violet']:not([class*='bg-brand-violet/10']):not([class*='bg-brand-violet/20']) {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  border-color: #2563eb !important;
+}
+
+[data-theme='professional-light'] button.bg-brand-violet *,
+[data-theme='professional-light'] button[class*='bg-brand-violet']:not([class*='bg-brand-violet/10']):not([class*='bg-brand-violet/20']) *,
+[data-theme='nordic-light'] button.bg-brand-violet *,
+[data-theme='nordic-light'] button[class*='bg-brand-violet']:not([class*='bg-brand-violet/10']):not([class*='bg-brand-violet/20']) * {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+[data-theme='professional-light'] button.bg-brand-violet:hover,
+[data-theme='professional-light'] button[class*='bg-brand-violet']:not([class*='bg-brand-violet/10']):not([class*='bg-brand-violet/20']):hover {
+  background-color: #1d4ed8 !important;
+  border-color: #1d4ed8 !important;
+  color: #ffffff !important;
+}
+
+/* 3. SECONDARY & SLATE UTILITY BUTTONS (Crisp Light Slate with Bold Dark Text) */
+[data-theme='professional-light'] button.bg-zinc-800,
+[data-theme='professional-light'] button[class*='bg-zinc-800'],
+[data-theme='professional-light'] button.bg-background-elevated,
+[data-theme='professional-light'] button[class*='bg-background-elevated'],
+[data-theme='nordic-light'] button.bg-zinc-800,
+[data-theme='nordic-light'] button[class*='bg-zinc-800'] {
+  background-color: #f1f5f9 !important;
+  color: #09090b !important;
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme='professional-light'] button.bg-zinc-800 *,
+[data-theme='professional-light'] button[class*='bg-zinc-800'] *,
+[data-theme='professional-light'] button.bg-background-elevated *,
+[data-theme='professional-light'] button[class*='bg-background-elevated'] *,
+[data-theme='nordic-light'] button.bg-zinc-800 *,
+[data-theme='nordic-light'] button[class*='bg-zinc-800'] * {
+  color: #09090b !important;
+  stroke: #09090b !important;
+}
+
+[data-theme='professional-light'] button.bg-zinc-800:hover,
+[data-theme='professional-light'] button[class*='bg-zinc-800']:hover {
+  background-color: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
+  color: #000000 !important;
+}
+
+/* 4. GHOST & OUTLINE BUTTONS */
+[data-theme='professional-light'] button.border-border:not([class*='bg-brand-']):not([class*='bg-zinc-9']):not([class*='bg-black']):not([class*='bg-amber-']) {
+  color: #09090b !important;
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme='professional-light'] button.border-border:not([class*='bg-brand-']):not([class*='bg-zinc-9']):not([class*='bg-black']):not([class*='bg-amber-']) * {
+  color: #09090b !important;
+}
+
+/* 5. AMBER STREAK CHECK-IN & FLAME BUTTONS */
+[data-theme='professional-light'] button[class*='bg-amber-500']:not([class*='text-zinc-950']) {
+  color: #b45309 !important;
+  border-color: rgba(245, 158, 11, 0.4) !important;
+}
+
+[data-theme='professional-light'] button[class*='bg-amber-500']:not([class*='text-zinc-950']) * {
+  color: #b45309 !important;
+}
+
+[data-theme='professional-light'] button[class*='bg-gradient-to-r from-amber-500'] {
+  color: #09090b !important;
+}
+
+[data-theme='professional-light'] button[class*='bg-gradient-to-r from-amber-500'] * {
+  color: #09090b !important;
+}
+
+/* 6. OBSIDIAN LUXE EXECUTIVE DARK BUTTON RULES */
+[data-theme='obsidian-luxe'] button.bg-brand-cyan,
+[data-theme='obsidian-luxe'] button[class*='bg-brand-cyan']:not([class*='bg-brand-cyan/']) {
+  background-color: #38bdf8 !important;
+  color: #08090b !important;
+  border-color: #38bdf8 !important;
+}
+
+[data-theme='obsidian-luxe'] button.bg-brand-cyan *,
+[data-theme='obsidian-luxe'] button[class*='bg-brand-cyan']:not([class*='bg-brand-cyan/']) * {
+  color: #08090b !important;
+  stroke: #08090b !important;
+}
+
+[data-theme='obsidian-luxe'] button.bg-brand-violet,
+[data-theme='obsidian-luxe'] button[class*='bg-brand-violet']:not([class*='bg-brand-violet/10']):not([class*='bg-brand-violet/20']) {
+  background-color: #818cf8 !important;
+  color: #ffffff !important;
+}
+
+[data-theme='obsidian-luxe'] button.bg-brand-violet *,
+[data-theme='obsidian-luxe'] button[class*='bg-brand-violet']:not([class*='bg-brand-violet/10']):not([class*='bg-brand-violet/20']) * {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+.neon-text-cyan {
+  color: var(--color-brand-cyan);
+}
+
+[data-theme='professional-light'] ::-webkit-scrollbar-track,
+[data-theme='nordic-light'] ::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+
+[data-theme='professional-light'] ::-webkit-scrollbar-thumb,
+[data-theme='nordic-light'] ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+[data-theme='professional-light'] ::-webkit-scrollbar-thumb:hover,
+[data-theme='nordic-light'] ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ==========================================================================
+   GLOBAL TYPOGRAPHY & SHAPE MORPHING RULES
+   ========================================================================== */
+
+body, button, input, select, textarea {
+  font-family: var(--theme-font, 'Junge', serif) !important;
+  letter-spacing: var(--theme-letter-spacing, normal);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--theme-font-display, var(--theme-font, 'Junge', serif)) !important;
+}
+
+code, pre, .font-mono {
+  font-family: var(--theme-font-mono, 'JetBrains Mono', monospace) !important;
+}
+
+/* Shape transformations across all components */
+.rounded-xl,
+.rounded-2xl,
+.rounded-3xl,
+.rounded-lg,
+.rounded-md,
+.rounded {
+  border-radius: var(--theme-radius, 14px) !important;
+}
+
+.rounded-sm {
+  border-radius: var(--theme-radius-sm, 6px) !important;
+}
+
+.rounded-full {
+  border-radius: var(--theme-radius-pill, 9999px) !important;
+}
+
+button {
+  border-radius: var(--theme-radius-sm, var(--theme-radius, 8px)) !important;
+}
+
+/* Glass panel transformations */
+.glass-panel {
+  border-radius: var(--theme-radius, 14px) !important;
+  box-shadow: var(--theme-panel-shadow) !important;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-zinc-100 antialiased overflow-x-hidden transition-colors duration-200;
+  }
+}
+
+/* Custom grid mesh */
+.grid-mesh {
+  background-size: 30px 30px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* Custom radial scan highlights */
+.radial-highlight {
+  background: radial-gradient(circle 800px at 50% 200px, var(--color-brand-cyan-dim), transparent 80%);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-default);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--theme-radius-sm, 3px);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-active);
+}
+
+/* Code editor console terminal styling */
+.terminal-glow {
+  text-shadow: 0 0 6px var(--color-brand-cyan-dim);
+}
+.terminal-glow-green {
+  text-shadow: 0 0 6px rgba(52, 211, 153, 0.4);
+}
+
+/* Markdown message styles */
+.markdown-content p {
+  @apply mb-2 last:mb-0;
+}
+.markdown-content ul {
+  @apply pl-4 mb-2 list-disc;
+}
+.markdown-content ol {
+  @apply pl-4 mb-2 list-decimal;
+}
+.markdown-content li {
+  @apply mb-1;
+}
+.markdown-content code {
+  @apply bg-background-card px-1.5 py-0.5 rounded text-brand-cyan font-mono text-[10px] border border-border;
+}
+
+/* Glassmorphic panels */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass-panel-hover:hover {
+  border-color: var(--color-brand-cyan);
+  box-shadow: var(--theme-panel-shadow);
+  transform: translateY(-2px);
+}
+
+/* Glowing text */
+.neon-text-cyan {
+  color: var(--color-brand-cyan);
+  text-shadow: 0 0 10px var(--color-brand-cyan), 0 0 20px var(--color-brand-cyan-dim);
+}
+
+.neon-text-violet {
+  color: var(--color-brand-violet);
+  text-shadow: 0 0 10px var(--color-brand-violet), 0 0 20px var(--color-brand-violet-dim);
+}
+
+/* Glow lines */
+.glow-line-cyan {
+  background: linear-gradient(90deg, transparent, var(--color-brand-cyan), transparent);
+  box-shadow: 0 0 8px var(--color-brand-cyan);
+}
+.glow-line-violet {
+  background: linear-gradient(90deg, transparent, var(--color-brand-violet), transparent);
+  box-shadow: 0 0 8px var(--color-brand-violet);
+}
+
+/* Neon buttons */
+.btn-neon-cyan {
+  border: 1px solid var(--color-brand-cyan);
+  background: var(--color-brand-cyan-dim);
+  transition: all 0.3s;
+  border-radius: var(--theme-radius-sm, 6px);
+}
+.btn-neon-cyan:hover {
+  border-color: var(--color-brand-cyan);
+  background: var(--color-brand-cyan);
+  color: #000000;
+  box-shadow: 0 0 15px var(--color-brand-cyan);
+}
+
+.btn-neon-violet {
+  border: 1px solid var(--color-brand-violet);
+  background: var(--color-brand-violet-dim);
+  transition: all 0.3s;
+  border-radius: var(--theme-radius-sm, 6px);
+}
+.btn-neon-violet:hover {
+  border-color: var(--color-brand-violet);
+  background: var(--color-brand-violet);
+  color: #000000;
+  box-shadow: 0 0 15px var(--color-brand-violet);
+}
+
+/* Stark Arc Reactor glowing animations */
+@keyframes arcPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.4), inset 0 0 15px rgba(6, 182, 212, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(6, 182, 212, 0.7), inset 0 0 25px rgba(6, 182, 212, 0.4);
+  }
+}
+
+.stark-arc-glow {
+  animation: arcPulse 3s ease-in-out infinite;
+}
